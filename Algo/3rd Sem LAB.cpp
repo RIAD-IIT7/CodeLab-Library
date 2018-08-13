@@ -1,0 +1,294 @@
+///                             Bismillahi-r-Rahmani-r-Rahim
+///                                     RhIeyAaD
+///                                  IIT-7th Batch,JU
+#include<bits/stdc++.h>
+#define ll long long int
+#define fr(i,n) ;for(i=0;i<n;i++)
+#define rep(i,n) for(i=1;i<=n;i++)
+#define mem(x,n) memset(x,n,sizeof(x))
+#define V 5
+#define INF INT_MAX
+using namespace std;
+ll graph[9999][9999],vis[9999],ad[9999],x[9999][9999],dist[9999],X[9999]={5,4,3,2,1};
+
+vector<int>adj[99];
+///                                           Sorting
+
+void MergeSort(ll l,ll h)
+{
+    if(l==h)return ;
+    ll m=(l+h)/2;
+    MergeSort(l,m);
+    MergeSort(m+1,h);
+
+    ll a,b,k,temp[9999];
+    for(a=l,k=l,b=m+1;k<=h;k++)
+    {
+       if(a>m)temp[k]=X[b++];
+       else if(b>h)temp[k]=X[a++];
+       else if(X[a]<X[b])temp[k]=X[a++];
+       else temp[k]=X[b++];
+    }
+    for(int i=l;i<=h;i++)
+        X[i]=temp[i];
+}
+
+void Insertion(ll n)
+{
+    ll i,j,key;
+    for(i=1;i<n;i++)
+    {
+        j=i-1;
+        key=X[i];
+        while(j>=0&&X[j]>key)
+        {
+            X[j+1]=X[j];
+            j--;
+        }
+        X[j+1]=key;
+    }
+}
+
+void CountSort(ll n,ll k)
+{
+    ll i,j;
+    ll b[k],c[n];
+    for(i=0;i<=k;i++)
+        b[i]=0;
+    for(i=0;i<n;i++)
+        b[X[i]]++;
+    for(i=1;i<=k;i++)
+        b[i]+=b[i-1];
+    for(i=0;i<n;i++)
+        {
+            c[b[X[i]]-1]=X[i];
+            b[X[i]]--;
+        }
+    for(i=0;i<n;i++)
+        X[i]=c[i];
+
+}
+///                                     Dynamic Programming
+ll BP(ll n,ll r)
+{
+    ll i,j;
+    for(i=0;i<=n;i++)
+    {
+        for(j=0;j<=min(i,r);j++)
+        {
+            if(j==i||j==0)x[i][j]=1;
+            else x[i][j]=x[i-1][j-1]+x[i-1][j];
+        }
+    }
+    return x[n][r];
+}
+
+ll LCS(char p[],char q[],int a,int b)
+{
+    ///All loop will work through 1 to n/m here...
+    int i,j,k;
+    rep(i,a)
+        x[i][0]=0;
+    rep(i,b)
+        x[0][i]=0;
+    rep(i,a)
+        rep(j,b)
+        {
+            if(p[i]==q[j])x[i][j]=x[i-1][j-1]+1;
+            else x[i][j]=max(x[i][j-1],x[i-1][j]);
+        }
+    return x[a][b];
+}
+
+ll MatMul(int p[],int n)
+{
+    int m[n][n],s[n][n];
+    int i,j,k,l,q;
+    for(i=1;i<n;i++)
+        m[i][i]=0;
+    for(l=2;l<n;l++)
+    {
+        for(i=1;i<n-l+1;i++)
+        {
+            j=i+l-1;
+            m[i][j]=INF;
+            for(k=i;k<=j-1;k++)
+            {
+                q=m[i][k]+m[k+1][j]+p[i-1]*p[k]*p[j];
+                if(q<m[i][j])
+                {
+                    m[i][j]=q;
+                    s[i][j]=k;
+                }
+            }
+        }
+    }
+    return m[1][n-1];
+}
+///                                     Graph
+void DFS(int s)
+{
+    if(vis[s])return ;
+    vis[s]=1;
+    for(int i=0;i<adj[s].size();i++)
+        DFS(adj[s][i]);
+}
+
+void BFS(int s)
+{
+    int i;
+    mem(vis,0);
+    queue<int>q;
+    q.push(s);
+    vis[s]=1;
+    while(!q.empty())
+    {
+        int u=q.front();
+        q.pop();
+        fr(i,adj[u].size())
+        {
+            int v=adj[u][i];
+            if(!vis[v])
+            {
+                q.push(v);
+                vis[v]=1;
+            }
+        }
+    }
+}
+
+void ASSP(int x[V][V])
+{
+    int i,j,k;
+    fr(k,V)
+        fr(i,V)
+            fr(j,V)
+            {
+                if(graph[i][j] > graph[i][k]+graph[k][j])
+                   graph[i][j] = graph[i][k]+graph[k][j];
+            }
+}
+ll minimum(ll dist[],ll tree[])
+{
+    int i,min=INF,min_index;
+    fr(i,V)
+    {
+        if(!tree[i] && dist[i]<min)
+            min=dist[i],min_index=i;
+    }
+    return i=min_index;
+}
+void Dijkstra(int x[V][V],int s)
+{
+    int u,i,j,k;
+
+    ///Initialization
+    ll dist[999],tree[999];
+    fr(i,V)
+        dist[i]=INF,tree[i]=0;
+    dist[s]=0;
+
+    ///Find Minimum
+    fr(i,V)
+    {
+        u=minimum(dist,tree);
+        tree[u]=1;
+     ///Relaxation
+        fr(k,V)
+        {
+            if(!tree[k] && dist[k]!=INF && graph[u][k] && dist[k]>dist[u]+graph[u][k])
+                dist[k] = dist[u]+graph[u][k];
+        }
+    }
+   // print(graph);
+}
+struct edg
+{
+    int u,v,w;
+};
+vector<edg>edge;
+edg e;
+void BellFord(int graph[][V],int s)
+{
+    int i,j,k;
+    fr(i,V)
+        dist[i]=INF;
+    dist[s]=0;
+    ///Relaxation with Edges
+    fr(j,V-1)
+        fr(i,edge.size())
+        {
+            if(dist[edge[i].v] > dist[edge[i].u]+edge[i].w)
+                edge[i].v = dist[edge[i].u]+edge[i].w;
+        }
+}
+int printMST(int parent[], int n, int graph[V][V])
+{
+   printf("Edge   Weight\n");
+   for (int i = 1; i < V; i++)
+      printf("%d - %d    %d \n", parent[i], i, graph[i][parent[i]]);
+}
+void Prims(int graph[V][V])
+{
+    int i,j,u;
+    ll tree[V],dist[V],parent[V];
+    fr(i,V)
+        dist[i]=INF,tree[i]=0;
+    dist[0]=0,tree[0]=-1;
+    for(j=0;j<V-1;j++)
+    {
+        u=minimum(dist,tree);
+        tree[u]=1;
+        fr(i,V)
+        {
+            if(!tree[i] && graph[u][i] && graph[u][i]<dist[i])
+                dist[i]=graph[u][i],parent[i]=u;
+        }
+    }
+  //  printMST(parent, V, graph);
+}
+int main()
+{
+    ll a,b,c,d,i,j,k,q,r,h,l,s;
+    clock_t t1,t2;
+//    ///Dijkstra
+//    int graph[V][V] = {{0, 4, 0, 0, 0, 0, 0, 8, 0},
+//                      {4, 0, 8, 0, 0, 0, 0, 11, 0},
+//                      {0, 8, 0, 7, 0, 4, 0, 0, 2},
+//                      {0, 0, 7, 0, 9, 14, 0, 0, 0},
+//                      {0, 0, 0, 9, 0, 10, 0, 0, 0},
+//                      {0, 0, 4, 14, 10, 0, 2, 0, 0},
+//                      {0, 0, 0, 0, 0, 2, 0, 1, 6},
+//                      {8, 11, 0, 0, 0, 0, 1, 0, 7},
+//                      {0, 0, 2, 0, 0, 0, 6, 7, 0}
+//                     };
+//    Dijkstra(graph, 0);
+//
+//    ///BellFord
+//    cin>>n>>m;
+//        fr(i,m)
+//        {
+//            cin>>a>>b>>c;
+//            x.u=a,x.v=b,x.w=c;
+//            edge.pb(x);
+//            x.v=a,x.u=b,x.w=c;
+//            edge.pb(x);
+//        }
+//        cin>>s;
+//        BellFord(s);
+//    int p[]={1,2,3,4};
+//    cout<<MatMul(p,4);
+//    t1=clock();
+//    fr(i,9999)
+//    X[i]=rand();
+    //MergeSort(0,9998);
+    //t2=clock();
+//    Insertion(9999);
+    CountSort(5,5)
+    fr(i,5)cout<<X[i]<<endl;
+//    double t=(t2-t1)/(CLOCKS_PER_SEC/1000);
+//    cout<<"Time: "<<t<<endl;
+
+    return 0;
+}
+

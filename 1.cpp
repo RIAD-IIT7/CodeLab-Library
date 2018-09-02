@@ -25,10 +25,12 @@ using namespace std;
 //int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 #define ll              long long int
 #define MAX             2134567891
+#define INF             1e9 + 7
 #define MIN             INT_MIN
 #define MID(l,r)        (l+r)>>1
 #define fr(i,n)         for(i=0;i<n;i++)
 #define rep(i,n)        for(i=1;i<=n;i++)
+#define per(i,a,n)      for(i=n;i>=a;i--)
 #define FOR(i,a,n)      for(i=a;i<=n;i++)
 #define ALL(n)          n.begin(),n.end()
 #define mem(x,n)        memset(x,n,sizeof(x))
@@ -48,20 +50,25 @@ using namespace std;
 #define ff              first
 #define ss              second
 #define MOD             10000007
-#define p6              1000007 ///10^6->6 zero after 1 **
+#define p6              1e6+7 ///10^6->6 zero after 1 **
 #define PI              2*acos(0.0)
 #define hii             printf("hii\n");
 #define hlw             printf("hlw\n");
 #define SN              4*p6
+#define NN              100
 #define N               p6
 
 ll x[N],y[N],z[N];
-string s;
-// map <ll,ll> mp;
-// map <ll,ll> mp :: iterator it;
+string s,S;
 //vector<ll>v;
 //vector< pair<ll,ll> >v;
 //pair<ll,ll> pr;
+// map <ll,ll> mp;
+// map <ll,ll> mp :: iterator it;
+//bool cmp(pair<ll,ll> a, pair<ll,ll> b)
+//{
+//    return a.ss<b.ss;
+//}
 
 int main()
 {
@@ -69,7 +76,7 @@ int main()
     //while(1)
     //READ;WRITE;
 {
-    ll a,b,c=0,d,diff,e,i,j,k,l,m,n,p,q,r,u,val,w,t,tc,sz,lo,hi,mid,mn=MAX,mx=0,sum=0,ans=0;
+    ll a,b,c=0,d,diff,e,f,g,i,j,k,l,m,n,p,q,r,u,val,w,t,tc,sz,lo,hi,mid,mn=MAX,mx=0,sum=0,ans=0;
 
 
 }

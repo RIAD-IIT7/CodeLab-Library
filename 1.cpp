@@ -47,10 +47,11 @@ using namespace std;
 #define PAIR            pair<ll,ll>
 #define MP              make_pair
 #define pb(a)           push_back(a)
+#define INS(a)          insert(a)
 #define ff              first
 #define ss              second
-#define MOD             10000007
-#define p6              1e6+7 ///10^6->6 zero after 1 **
+#define MOD             1000000007///10^9
+#define p6              1000007 ///10^6->6 zero after 1 **
 #define PI              2*acos(0.0)
 #define hii             printf("hii\n");
 #define hlw             printf("hlw\n");
@@ -58,16 +59,17 @@ using namespace std;
 #define NN              100
 #define N               p6
 
-ll x[N],y[N],z[N];
+ll x[N],y[N],z[N],n;
 string s,S;
 //vector<ll>v;
 //vector< pair<ll,ll> >v;
 //pair<ll,ll> pr;
-// map <ll,ll> mp;
+//multiset<int>st;
+//map <ll,ll> mp;
 // map <ll,ll> mp :: iterator it;
-//bool cmp(pair<ll,ll> a, pair<ll,ll> b)
+//bool cmp(PAIR a, PAIR b)
 //{
-//    return a.ss<b.ss;
+//    return a.ff>b.ff;
 //}
 
 int main()
@@ -76,7 +78,7 @@ int main()
     //while(1)
     //READ;WRITE;
 {
-    ll a,b,c=0,d,diff,e,f,g,i,j,k,l,m,n,p,q,r,u,val,w,t,tc,sz,lo,hi,mid,mn=MAX,mx=0,sum=0,ans=0;
+    ll a=0,b=0,c=0,d,diff,e,f,g,i,j,k,l,m,in,mod,loc,p,q,r,u,val,w,t,tc,sz,lo,hi,mid,mn=MAX,mx=0,sum=0,ans=0;
 
 
 }
